@@ -1,5 +1,5 @@
 package src;
-import javax.swing.*;
+import javax.swing.*;	
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,22 +14,13 @@ public class LoginGUI extends JFrame {
     ConexaoPostgreSQL usuarioDAO;
 
     public LoginGUI() {
-        super("Tela de Login");
-        ConexaoPostgreSQL usuarioDAO = new ConexaoPostgreSQL(); 
-        
-        // Configuração básica do layout
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-        
-        loginField = new JTextField(15);
-        senhaField = new JPasswordField(15);
-        loginButton = new JButton("Login");
-
-        add(new JLabel("Login:"));
-        add(loginField);
-        add(new JLabel("Senha:"));
-        add(senhaField);
-        add(loginButton);
-
+    	    super("Tela de Login");
+    	    this.usuarioDAO = new ConexaoPostgreSQL(); // Inicializa a variável de INSTÂNCIA
+    	    // ...
+    	 // Estas linhas devem estar ANTES de addActionListener
+    	    loginField = new JTextField(15);
+    	    senhaField = new JPasswordField(15);
+    	    loginButton = new JButton("Login"); // ESTA LINHA É ESSENCIAL!
         // Ação do Botão
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -53,7 +44,7 @@ public class LoginGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack(); // Ajusta o tamanho da janela aos componentes
         setLocationRelativeTo(null); // Centraliza a janela
-        setVisible(true);
+        setVisible(false); // Torna a janela visível
     }
 
     public static void main(String[] args) {

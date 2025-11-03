@@ -1,27 +1,25 @@
 package src;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.Panel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import java.awt.Canvas;
-import java.awt.Label;
-import java.awt.CardLayout;
-import javax.swing.JLayeredPane;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 public class TelaLogin extends LoginGUI {
 
 	private JFrame frame;
 	private JTextField txtLogin;
-	private JTextField txtSenha;
+	private JPasswordField txtSenha;
 
 	/**
 	 * Launch the application.
@@ -55,51 +53,51 @@ public class TelaLogin extends LoginGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setEnabled(false);
 		frame.getContentPane().setForeground(new Color(255, 255, 0));
-		frame.setBounds(100, 100, 446, 344);
+		frame.setBounds(100, 100, 647, 372);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("SISTEMA");
+		JLabel lblNewLabel = new JLabel("SISTEMA AGENDA");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel.setBounds(108, 26, 102, 45);
+		lblNewLabel.setBounds(393, 26, 170, 45);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Login:");
-		lblNewLabel_1.setBounds(109, 83, 46, 14);
+		lblNewLabel_1.setBounds(348, 87, 46, 14);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		txtLogin = new JTextField();
-		txtLogin.setBounds(109, 108, 235, 20);
+		txtLogin.setBounds(348, 112, 235, 20);
 		frame.getContentPane().add(txtLogin);
 		txtLogin.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Senha:");
-		lblNewLabel_2.setBounds(109, 132, 46, 14);
+		lblNewLabel_2.setBounds(348, 136, 46, 14);
 		frame.getContentPane().add(lblNewLabel_2);
-		
-		txtSenha = new JTextField();
-		txtSenha.setBounds(109, 154, 235, 20);
-		frame.getContentPane().add(txtSenha);
-		txtSenha.setColumns(10);
 		
 		JButton EntrarButton = new JButton("Entrar");
 		EntrarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {			
 				LoginGUI loginGUI = new LoginGUI();
 				String login = txtLogin.getText();
 				String senha = txtSenha.getText();
 				if (loginGUI.usuarioDAO.validarLogin(login, senha)) {
-					System.out.println("Login bem-sucedido!");
+					 JOptionPane.showMessageDialog(null, "Login bem-sucedido! " + " Bem-vindo, " + login + "!");
+					/*System.out.println("Bem-vindo, " + login + "!");*/
+					AgendaFrame agenda = new AgendaFrame();
+					agenda.setVisible(true);
+					
 					// Aqui você pode adicionar o código para abrir a tela principal
 				} else {
 					System.out.println("Login ou senha incorretos!");
+					 JOptionPane.showMessageDialog(null, "Login ou senha incorretos!!");
 				}
 			}
 		});
-		EntrarButton.setBounds(255, 185, 89, 23);
+		EntrarButton.setBounds(348, 190, 89, 23);
 		frame.getContentPane().add(EntrarButton);
 		
 		JButton EsqueceuSenhaButton = new JButton("Esqueceu a Senha");
-		EsqueceuSenhaButton.setBounds(109, 185, 143, 23);
+		EsqueceuSenhaButton.setBounds(440, 190, 143, 23);
 		frame.getContentPane().add(EsqueceuSenhaButton);
 
 		
@@ -110,8 +108,23 @@ public class TelaLogin extends LoginGUI {
 				telaCadastro.setVisible(true);
 			}
 		});
-		btnNewButton_2.setBounds(109, 212, 235, 23);
+		btnNewButton_2.setBounds(348, 224, 235, 23);
 		frame.getContentPane().add(btnNewButton_2);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(12, 12, 318, 309);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel_3 = new JLabel("New label");
+		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\PC\\eclipse-workspace\\novo\\CadastroAgenda\\IMGSISTEMA.png"));
+		lblNewLabel_3.setBounds(0, 11, 308, 287);
+		panel.add(lblNewLabel_3);
+		
+		txtSenha = new JPasswordField();
+		txtSenha.setEchoChar('*');
+		txtSenha.setBounds(348, 159, 235, 20);
+		frame.getContentPane().add(txtSenha);
 	}
 
 	public void setVisible(boolean b) {

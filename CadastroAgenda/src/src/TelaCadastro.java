@@ -1,6 +1,6 @@
 package src;
 
-import java.awt.EventQueue;
+import java.awt.EventQueue;	
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,15 +11,18 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
+import src.ConexaoPostgreSQL;
+import src.Usuario;
 
 public class TelaCadastro extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField textFieldnome;
+	private JTextField textFieldemail;
+	private JTextField textFieldusuario;
+	private JTextField textFieldsenha;
 	public Object frame;
 
 	/**
@@ -58,42 +61,65 @@ public class TelaCadastro extends JFrame {
 		lblNewLabel_1.setBounds(10, 45, 46, 14);
 		contentPane.add(lblNewLabel_1);
 		
-		textField = new JTextField();
-		textField.setBounds(10, 64, 296, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textFieldnome = new JTextField();
+		textFieldnome.setBounds(10, 64, 296, 20);
+		contentPane.add(textFieldnome);
+		textFieldnome.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Email:");
 		lblNewLabel_2.setBounds(10, 151, 46, 14);
 		contentPane.add(lblNewLabel_2);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(10, 174, 145, 20);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		textFieldemail = new JTextField();
+		textFieldemail.setBounds(10, 174, 145, 20);
+		contentPane.add(textFieldemail);
+		textFieldemail.setColumns(10);
 		
 		JLabel lblNewLabel_3 = new JLabel("Usuário:");
 		lblNewLabel_3.setBounds(10, 95, 46, 14);
 		contentPane.add(lblNewLabel_3);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(10, 120, 296, 20);
-		contentPane.add(textField_2);
-		textField_2.setColumns(10);
+		textFieldusuario = new JTextField();
+		textFieldusuario.setBounds(10, 120, 296, 20);
+		contentPane.add(textFieldusuario);
+		textFieldusuario.setColumns(10);
 		
 		JLabel lblNewLabel_4 = new JLabel("Senha:");
 		lblNewLabel_4.setBounds(161, 151, 46, 14);
 		contentPane.add(lblNewLabel_4);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(161, 174, 145, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		textFieldsenha = new JTextField();
+		textFieldsenha.setBounds(161, 174, 145, 20);
+		contentPane.add(textFieldsenha);
+		textFieldsenha.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Cadastrar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		
+				// Ler valores dos campos
+				String nome = textFieldnome.getText().trim();
+				String email = textFieldemail.getText().trim();
+				String usuario = textFieldusuario.getText().trim();
+				String senha = textFieldsenha.getText().trim();
+
+				// Validação básica
+				if (nome.isEmpty() || usuario.isEmpty() || senha.isEmpty()) {
+					JOptionPane.showMessageDialog(TelaCadastro.this, "Preencha os campos obrigatórios: Nome, Usuário, Senha", "Aviso", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+
+				Usuario u = new Usuario(nome, usuario, email, senha);
+				boolean ok = ConexaoPostgreSQL.inserirUsuario(u);
+				if (ok) {
+					JOptionPane.showMessageDialog(TelaCadastro.this, "Usuário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+					// Limpar campos
+					textFieldnome.setText("");
+					textFieldemail.setText("");
+					textFieldusuario.setText("");
+					textFieldsenha.setText("");
+				} else {
+					JOptionPane.showMessageDialog(TelaCadastro.this, "Erro ao cadastrar usuário. Veja o console para detalhes.", "Erro", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		btnNewButton.setBounds(10, 210, 171, 23);
